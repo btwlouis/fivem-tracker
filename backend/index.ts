@@ -64,11 +64,13 @@ app.get("/stats", (req: any, res: any) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
   console.log(`Server is running on port ${PORT}`);
+
+  await fetchServers();
 });
 
 
-cron.schedule("*/5 * * * *", async () => {
+cron.schedule("*/20 * * * *", async () => {
   await fetchServers();
 });
