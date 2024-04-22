@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: database
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      - MONGODB_URI=mongodb://database:27017/fivem-tracker  # Updated MongoDB URI
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongodb
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:80"
+    networks:
+      - app_network
+      
+networks:
+  app_network:
+
+volumes:
+  mongodb_data:
