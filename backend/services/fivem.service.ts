@@ -23,11 +23,8 @@ export async function fetchServers() {
     for (const match of data.data.matchAll(regex)) {
         cachedServers.push({ id: match.groups.id, ip: match.groups.ip });
     }
-
-    cachedServers = cachedServers.slice(0, 500);
   
     console.log("Total servers:", cachedServers.length);
-    // calculating delay to have 100 servers done in 5 minutes
 
     const delay = Number(process.env.DELAY_FIVEM_REQUESTS) || 1000;
     console.log("Delay between requests:", delay);
@@ -45,8 +42,11 @@ export async function updateServers(date: number) {
         await new Promise((r) => setTimeout(r, delay));
         const serverData = await fetchServer(server.id);
         
-        if (!serverData) 
+        if (!serverData) {
+            console.log("Failed to fetch server data for", server.id);
+            cachedServers = cachedServers.filter((s) => s.id !== server.id);
             continue;
+        }
 
         console.log("Getting server data from", serverData.EndPoint);
         serverData.Data.serverIconUrl = `https://servers-live.fivem.net/servers/icon/${serverData.EndPoint}/${serverData.Data.iconVersion}.png`;
@@ -90,4 +90,6 @@ export async function fetchServer(id: string) {
         console.log("Error fetching server data");
         await new Promise((r) => setTimeout(r, 5000));
     }
+
+    return null;
 }
