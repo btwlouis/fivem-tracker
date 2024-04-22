@@ -69,8 +69,3 @@ app.listen(PORT, async() => {
 
   await fetchServers();
 });
-
-
-cron.schedule("*/20 * * * *", async () => {
-  await fetchServers();
-});

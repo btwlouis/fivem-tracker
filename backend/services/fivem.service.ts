@@ -62,6 +62,8 @@ export async function updateServers(date: number) {
         }
         await ServerHistory.insert(serverHistory);
     }
+    
+    await updateServers(date);
 }
 
 export async function fetchServer(id: string) {
