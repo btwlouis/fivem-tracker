@@ -20,23 +20,26 @@ const ServerList = ({ searchValue }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await axios.get(process.env.REACT_APP_API_URL + "servers");
+        const response = await axios.get(
+          process.env.REACT_APP_API_URL + "servers"
+        );
 
-        if (data.status != 200) {
-          return setError("Error fetching data");
+        if (response.status !== 200) {
+          throw new Error("Error fetching data");
         }
 
-        const response = data.data;
-
-        setData(response);
+        setData(response.data);
+        setItemsPerPage(response.data.length / 5);
         setLoading(false);
       } catch (error) {
-        setError(error);
-        setLoading(true);
+        setError(error.message);
+        setLoading(false);
       }
     };
 
@@ -47,20 +50,47 @@ const ServerList = ({ searchValue }) => {
     navigate(`/server/${id}`);
   };
 
-  const filteredData = data.filter((item) =>
+  // Calculate indexes for pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const filteredData = currentItems.filter((item) =>
     item.Data.hostname.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
     <div>
       {loading ? (
-        <Loading></Loading>
+        <Loading />
       ) : error ? (
         <div>{error}</div>
       ) : (
-        <CContainer>
+        <CContainer id="top">
           <h2 className="mt-3">Server List ({filteredData.length})</h2>
-
+          <nav className="d-flex justify-content-end">
+            <ul className="pagination">
+              {[...Array(Math.ceil(data.length / itemsPerPage)).keys()].map(
+                (number) => (
+                  <li
+                    key={number}
+                    className={`page-item ${
+                      currentPage === number + 1 ? "active" : ""
+                    }`}>
+                    <a
+                      onClick={() => paginate(number + 1)}
+                      href="#top"
+                      className="page-link">
+                      {number + 1}
+                    </a>
+                  </li>
+                )
+              )}
+            </ul>
+          </nav>
           {filteredData.map((item, index) => (
             <CRow className="mb-3" key={index}>
               <CCol xs="12">
