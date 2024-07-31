@@ -23,7 +23,7 @@ const Server = () => {
 
         if (data.status === 200) {
           const response = data.data;
-          console.log(response);
+
           setData(response);
           setLoading(false);
         } else {

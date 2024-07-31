@@ -1,7 +1,7 @@
 interface IServerHistory {
-    EndPoint: string;
-    clients: number;
-    timestamp: Number;
+  id: string;
+  clients: number;
+  timestamp: Date;
 }
 
 export default IServerHistory;

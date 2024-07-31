@@ -25,12 +25,19 @@ import {
 } from "@coreui/icons";
 import { formatHostname, getColorForPercentage } from "../helpers";
 import { formatDate, calculatePercentage } from "../helpers";
+import ServerChart from "./ServerChart";
+
+export function getServerIconURL(joinId, iconVersion) {
+  if (joinId && typeof iconVersion === "number") {
+    return `https://servers-frontend.fivem.net/api/servers/icon/${joinId}/${iconVersion}.png`;
+  }
+}
 
 const ServerInfo = ({ server }) => {
-  const data = server.Data;
-  const EndPoint = server.EndPoint;
+  if (!server) return null;
 
-  if (!data) return null;
+  const data = server;
+  console.log(data);
 
   return (
     <CContainer>
@@ -39,22 +46,26 @@ const ServerInfo = ({ server }) => {
           <CCard>
             <CCardBody>
               <div className="d-flex">
-                <CImage src={data.serverIconUrl} width={96} height={96} />
+                <CImage
+                  src={getServerIconURL(data.joinId, data.iconVersion)}
+                  width={96}
+                  height={96}
+                />
                 <div className="d-block ms-3">
                   <CCardTitle
                     dangerouslySetInnerHTML={{
-                      __html: formatHostname(data.hostname),
+                      __html: formatHostname(data.hostname || "") || "N/A",
                     }}
                   />
                   <CCardText>
                     <CIcon icon={cilUserPlus} className="me-1" />
-                    <strong>Players:</strong> {data.clients}/
-                    {data.sv_maxclients}
+                    <strong>Players:</strong> {data.playersCurrent}/
+                    {data.playersMax}
                   </CCardText>
 
                   <CButton
                     color="primary"
-                    href={`https://cfx.re/join/${EndPoint}`}
+                    href={`https://cfx.re/join/${data.joinId}`}
                     target="_blank">
                     Join Server
                   </CButton>
@@ -110,53 +121,27 @@ const ServerInfo = ({ server }) => {
                   )}
                 </CCardText>
                 <CCardText>
-                  <CIcon icon={cilTerminal} className="me-1" />
-                  <strong>Resources (total: {data.resources.length}):</strong>
-                  <br />
-                  {data.resources.map((resource) => (
-                    <span className="badge bg-primary me-1">{resource}</span>
-                  ))}
-                </CCardText>
-                <CCardText>
                   <CIcon icon={cilUser} className="me-1" />
-                  <strong>Players: (total: {data.players.length}):</strong>
+                  <strong>Players: (total: {data.playersCurrent}):</strong>
                   <br />
                   {data.players.map((player) => (
                     <span className="badge bg-primary me-1">{player.name}</span>
                   ))}
                 </CCardText>
-                <CCardText>
-                  <CIcon icon={cilClock} className="me-1" />
-                  <strong>Last Seen:</strong> {formatDate(data.lastSeen)}
-                </CCardText>
-                <div className="d-flex justify-content-between align-items-center">
-                  <div>
-                    <CIcon icon={cilUser} className="me-1" />
 
-                    <span>Owner: {data.ownerName}</span>
-                    <CImage
-                      src={data.ownerAvatar}
-                      width="50"
-                      height="50"
-                      className="ms-2"
-                    />
-                  </div>
+                <ServerChart server={data} />
 
-                  <CButton
-                    color="primary"
-                    href={data.ownerProfile}
-                    target="_blank">
-                    Visit Owner's Profile
-                  </CButton>
-                </div>
                 <CProgress
                   className="mt-3"
                   color={getColorForPercentage(
-                    calculatePercentage(data.clients, data.sv_maxclients)
+                    calculatePercentage(data.playersCurrent, data.playersMax)
                   )}
                   variant="striped"
                   animated
-                  value={calculatePercentage(data.clients, data.sv_maxclients)}
+                  value={calculatePercentage(
+                    data.playersCurrent,
+                    data.playersMax
+                  )}
                 />
               </div>
             </CCardBody>

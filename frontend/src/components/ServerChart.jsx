@@ -5,7 +5,7 @@ import Loading from "./utils/Loading";
 import { ChartComponent } from "./utils/Chart";
 
 const ServerChart = ({ server }) => {
-  const EndPoint = server.EndPoint;
+  const id = server.id;
 
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,12 +15,13 @@ const ServerChart = ({ server }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `${process.env.REACT_APP_API_URL}server/${EndPoint}/history/${period}`;
+        const url = `${process.env.REACT_APP_API_URL}server/${id}/history/${period}`;
         const data = await axios.get(url);
+
+        console.log(data);
 
         if (data.status === 200) {
           const response = data.data;
-          console.log("response", response);
 
           setChartData(response);
           setLoading(false);
@@ -34,14 +35,15 @@ const ServerChart = ({ server }) => {
     };
 
     fetchData();
-  }, [EndPoint]);
+  }, [id]);
 
   function initialData() {
     const transformedArray = [];
 
     chartData.forEach((obj) => {
+      let date = new Date(obj.timestamp);
       const transformedObj = {
-        time: obj.timestamp,
+        time: date.getTime() / 1000,
         value: obj.clients,
       };
 

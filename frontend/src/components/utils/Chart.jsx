@@ -28,8 +28,14 @@ export const ChartComponent = (props) => {
       width: chartContainerRef.current.clientWidth,
       height: 300,
     });
+    chart.applyOptions({
+      localization: {
+        timeFormatter: (timestamp) => {
+          return new Date(timestamp * 1000).toLocaleString("de-DE");
+        },
+      },
+    });
     chart.timeScale().fitContent();
-
     const newSeries = chart.addAreaSeries({
       lineColor,
       topColor: areaTopColor,

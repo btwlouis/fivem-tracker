@@ -15,13 +15,18 @@ import {
   CRow,
 } from "@coreui/react";
 
+export function getServerIconURL(joinId, iconVersion) {
+  if (joinId && typeof iconVersion === "number") {
+    return `https://servers-frontend.fivem.net/api/servers/icon/${joinId}/${iconVersion}.png`;
+  }
+}
+
 const ServerList = ({ searchValue }) => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +40,6 @@ const ServerList = ({ searchValue }) => {
         }
 
         setData(response.data);
-        setItemsPerPage(response.data.length / 5);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -46,21 +50,17 @@ const ServerList = ({ searchValue }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // Filter data based on search value
+    const filtered = data.filter((item) =>
+      item.hostname.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setFilteredData(filtered);
+  }, [searchValue, data]);
+
   const handleCardClick = (id) => {
     navigate(`/server/${id}`);
   };
-
-  // Calculate indexes for pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const filteredData = currentItems.filter((item) =>
-    item.Data.hostname.toLowerCase().includes(searchValue.toLowerCase())
-  );
 
   return (
     <div>
@@ -71,54 +71,34 @@ const ServerList = ({ searchValue }) => {
       ) : (
         <CContainer id="top">
           <h2 className="mt-3">Server List ({filteredData.length})</h2>
-          <nav className="d-flex justify-content-end">
-            <ul className="pagination">
-              {[...Array(Math.ceil(data.length / itemsPerPage)).keys()].map(
-                (number) => (
-                  <li
-                    key={number}
-                    className={`page-item ${
-                      currentPage === number + 1 ? "active" : ""
-                    }`}>
-                    <a
-                      onClick={() => paginate(number + 1)}
-                      href="#top"
-                      className="page-link">
-                      {number + 1}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
-          </nav>
           {filteredData.map((item, index) => (
             <CRow className="mb-3" key={index}>
               <CCol xs="12">
                 <CCard
-                  onClick={() => handleCardClick(item.EndPoint)}
+                  onClick={() => handleCardClick(item.id)}
                   style={{ cursor: "pointer", flexDirection: "row" }}>
                   <CImage
                     rounded
                     className="mt-3 ms-3"
-                    src={item.Data.serverIconUrl}
+                    src={getServerIconURL(item.joinId, item.iconVersion)}
                     width={96}
                     height={96}
                   />
                   <CCardBody>
                     <CCardTitle
                       dangerouslySetInnerHTML={{
-                        __html: formatHostname(item.Data.hostname),
+                        __html: formatHostname(item.hostname || "") || "N/A",
                       }}
                     />
                     <CCardText>
-                      <strong>Game Type:</strong> {item.Data.gametype}
+                      <strong>Game Type:</strong> {item.gametype}
                     </CCardText>
                     <CCardText>
-                      <strong>Map Name:</strong> {item.Data.mapname}
+                      <strong>Map Name:</strong> {item.mapname}
                     </CCardText>
                     <CCardText>
-                      <strong>Players:</strong> {item.Data.clients}/
-                      {item.Data.sv_maxclients}
+                      <strong>Players:</strong> {item.playersCurrent}/
+                      {item.playersMax}
                     </CCardText>
                   </CCardBody>
                 </CCard>
