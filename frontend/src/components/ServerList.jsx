@@ -64,14 +64,14 @@ const ServerList = ({ searchValue }) => {
 
   return (
     <div>
-      {loading ? (
-        <Loading />
-      ) : error ? (
-        <div>{error}</div>
-      ) : (
-        <CContainer id="top">
-          <h2 className="mt-3">Server List ({filteredData.length})</h2>
-          {filteredData.map((item, index) => (
+      <CContainer id="top">
+        <h2 className="mt-3">Server List ({filteredData.length})</h2>
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <div>{error}</div>
+        ) : (
+          filteredData.map((item, index) => (
             <CRow className="mb-3" key={index}>
               <CCol xs="12">
                 <CCard
@@ -104,9 +104,9 @@ const ServerList = ({ searchValue }) => {
                 </CCard>
               </CCol>
             </CRow>
-          ))}
-        </CContainer>
-      )}
+          ))
+        )}
+      </CContainer>
     </div>
   );
 };

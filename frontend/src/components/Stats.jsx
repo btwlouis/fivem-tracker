@@ -39,7 +39,7 @@ const Stats = () => {
   return (
     <div>
       {loading ? (
-        <Loading></Loading>
+        ""
       ) : error ? (
         <div>{error}</div>
       ) : (
