@@ -73,12 +73,6 @@ app.get("/stats", (req: any, res: any) => {
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
-
-  await getServers();
-
-  setInterval(async () => {
-    await getServers();
-  }, 1000 * 60 * 5);
 });
 
 async function getServers() {
@@ -98,3 +92,7 @@ async function getServers() {
 
   console.log("Servers updated");
 }
+
+cron.schedule("*/5 * * * *", async () => {
+  await getServers();
+});
