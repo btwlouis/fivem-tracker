@@ -6,8 +6,8 @@
     "strict": true,
     "sourceMap": true,
     "esModuleInterop": true,
+    "allowJs": true
   },
-  "allowJs": true,
   "include": ["./**/*"],
   "exclude": ["**/node_modules"]
 }
