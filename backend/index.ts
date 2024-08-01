@@ -88,6 +88,8 @@ async function getServers() {
     });
 
     await Server.insertOrUpdate(server);
+
+    await ServerHistory.deleteOld(server.id);
   });
 
   console.log("Servers updated");

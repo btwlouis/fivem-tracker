@@ -5,6 +5,13 @@ export async function insert(serverHistory: IServerHistory) {
   await ServerHistory.create(serverHistory);
 }
 
+export async function deleteOld(id: string) {
+  const currentTime = new Date().getTime();
+  const oneMonthAgo = currentTime - 2592000000;
+
+  await ServerHistory.deleteMany({ id: id, timestamp: { $lte: oneMonthAgo } });
+}
+
 export async function get(id: string, time: string) {
   // time can be 1d 7d or 30d. convert it to milliseconds
   let timeInMs = 0;
