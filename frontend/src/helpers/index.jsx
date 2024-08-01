@@ -28,7 +28,7 @@ export const formatHostname = (hostname) => {
   for (let i = 0; i < colors.length; i++) {
     formattedHostname = formattedHostname.replace(
       new RegExp("\\^" + i, "g"),
-      `<span style="color:${colors[i]}">`
+      `<span style="color:${colors[i]}"></span>`
     );
   }
 
