@@ -24,15 +24,21 @@ export const formatHostname = (hostname) => {
     "#9E9E9E",
   ];
 
-  let formattedHostname = hostname;
-  for (let i = 0; i < colors.length; i++) {
-    formattedHostname = formattedHostname.replace(
-      new RegExp("\\^" + i, "g"),
-      `<span style="color:${colors[i]}"></span>`
-    );
-  }
+  // Regex pattern to find all ^n sequences
+  const regex = /\^(\d)([^^]*)/g;
 
-  formattedHostname = formattedHostname.replace(/\^/g, "</span>");
+  // String to build the final HTML
+  let formattedHostname = "";
+
+  // Loop through matches of the regex
+  let match;
+  while ((match = regex.exec(hostname)) !== null) {
+    const colorIndex = parseInt(match[1]); // Get the color index
+    const text = match[2]; // Get the text after the color code
+
+    // Append the formatted span
+    formattedHostname += `<span style="color:${colors[colorIndex]}">${text}</span>`;
+  }
 
   return formattedHostname;
 };

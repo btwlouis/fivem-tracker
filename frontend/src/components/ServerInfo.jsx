@@ -45,18 +45,22 @@ const ServerInfo = ({ server }) => {
         <CCol sm="12">
           <CCard>
             <CCardBody>
-              <div className="d-flex">
-                <CImage
-                  src={getServerIconURL(data.joinId, data.iconVersion)}
-                  width={96}
-                  height={96}
-                />
-                <div className="d-block ms-3">
+              <div className="d-flex flex-column flex-lg-row">
+                <div className="d-flex">
+                  <CImage
+                    src={getServerIconURL(data.joinId, data.iconVersion)}
+                    width={96}
+                    height={96}
+                  />
                   <CCardTitle
+                    className="ms-3"
                     dangerouslySetInnerHTML={{
                       __html: formatHostname(data.hostname || "") || "N/A",
                     }}
                   />
+                </div>
+
+                <div className="d-block">
                   <CCardText>
                     <CIcon icon={cilUserPlus} className="me-1" />
                     <strong>Players:</strong> {data.playersCurrent}/
@@ -71,7 +75,8 @@ const ServerInfo = ({ server }) => {
                   </CButton>
                 </div>
 
-                <div className="ms-auto">
+                {/* Show on mobile devices */}
+                <div className="d-block d-lg-none mt-3 ">
                   <CCardText>
                     <CIcon
                       icon={cilChevronDoubleUp}
@@ -91,6 +96,28 @@ const ServerInfo = ({ server }) => {
                     <strong>Burst Power:</strong> {data.burstPower}
                   </CCardText>
                 </div>
+              </div>
+
+              {/* Show on large devices */}
+              <div className="ms-auto d-none d-lg-block mb-5">
+                <CCardText>
+                  <CIcon
+                    icon={cilChevronDoubleUp}
+                    className="me-1"
+                    size="xl"
+                    style={{ "--ci-primary-color": "pink" }}
+                  />
+                  <strong>Upvote Power:</strong> {data.upvotePower}
+                </CCardText>
+                <CCardText>
+                  <CIcon
+                    icon={cilChevronTop}
+                    className="me-1"
+                    size="xl"
+                    style={{ "--ci-primary-color": "pink" }}
+                  />
+                  <strong>Burst Power:</strong> {data.burstPower}
+                </CCardText>
               </div>
 
               <div className="infos mt-3">
