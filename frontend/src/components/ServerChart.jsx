@@ -10,7 +10,7 @@ const ServerChart = ({ server }) => {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const period = "1m";
+  const period = "30d";
 
   useEffect(() => {
     const fetchData = async () => {
