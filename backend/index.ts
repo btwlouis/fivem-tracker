@@ -76,12 +76,13 @@ app.listen(PORT, async () => {
 });
 
 async function getServers() {
-  const serversToInsert = [];
-  const serversToUpdate = [];
-  const idsToDelete = new Set();
+  const serversToInsert: { id: string; clients: number; timestamp: Date }[] =
+    [];
+  const serversToUpdate: any[] = [];
+  const idsToDelete: Set<string> = new Set();
 
   await fetchServers(GameName.FiveM, async (server) => {
-    if (server.locale !== 'de-DE') {
+    if (server.locale !== "de-DE") {
       return;
     }
 
@@ -98,37 +99,36 @@ async function getServers() {
 
   // Bulk insert into ServerHistory
   if (serversToInsert.length > 0) {
-    await ServerHistory.insertMany(serversToInsert);
+    await ServerHistory.default.insertMany(serversToInsert);
   }
 
   // Bulk update or upsert in Server
   if (serversToUpdate.length > 0) {
-    const bulkOps = serversToUpdate.map(server => ({
+    const bulkOps = serversToUpdate.map((server) => ({
       updateOne: {
         filter: { id: server.id },
         update: server,
-        upsert: true
-      }
+        upsert: true,
+      },
     }));
-    await Server.bulkWrite(bulkOps);
+    await ServerHistory.default.bulkWrite(bulkOps);
   }
 
   // Delete old entries from ServerHistory
   if (idsToDelete.size > 0) {
-    await ServerHistory.deleteMany({
+    await ServerHistory.default.deleteMany({
       id: { $in: Array.from(idsToDelete) },
-      timestamp: { $lt: new Date(Date.now() - 24 * 60 * 60 * 1000) } // Example: Delete entries older than 24 hours
+      timestamp: { $lt: new Date(Date.now() - 24 * 60 * 60 * 1000) }, // Example: Delete entries older than 24 hours
     });
   }
 
-  console.log('Servers updated');
+  console.log("Servers updated");
 }
 
-cron.schedule('*/5 * * * *', async () => {
+cron.schedule("*/5 * * * *", async () => {
   try {
     await getServers();
   } catch (error) {
-    console.error('Error updating servers:', error);
+    console.error("Error updating servers:", error);
   }
 });
-

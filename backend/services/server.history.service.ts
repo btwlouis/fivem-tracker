@@ -41,3 +41,5 @@ export async function get(id: string, time: string) {
 export async function exists(id: string) {
   return await ServerHistory.exists({ id: id });
 }
+
+export default ServerHistory;
