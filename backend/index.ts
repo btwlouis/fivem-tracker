@@ -76,25 +76,59 @@ app.listen(PORT, async () => {
 });
 
 async function getServers() {
+  const serversToInsert = [];
+  const serversToUpdate = [];
+  const idsToDelete = new Set();
+
   await fetchServers(GameName.FiveM, async (server) => {
-    if (server.locale !== "de-DE") {
+    if (server.locale !== 'de-DE') {
       return;
     }
 
-    await ServerHistory.insert({
+    // Prepare data for bulk operations
+    serversToInsert.push({
       id: server.id,
       clients: server.playersCurrent || 0,
       timestamp: new Date(),
     });
 
-    await Server.insertOrUpdate(server);
-
-    await ServerHistory.deleteOld(server.id);
+    serversToUpdate.push(server);
+    idsToDelete.add(server.id);
   });
 
-  console.log("Servers updated");
+  // Bulk insert into ServerHistory
+  if (serversToInsert.length > 0) {
+    await ServerHistory.insertMany(serversToInsert);
+  }
+
+  // Bulk update or upsert in Server
+  if (serversToUpdate.length > 0) {
+    const bulkOps = serversToUpdate.map(server => ({
+      updateOne: {
+        filter: { id: server.id },
+        update: server,
+        upsert: true
+      }
+    }));
+    await Server.bulkWrite(bulkOps);
+  }
+
+  // Delete old entries from ServerHistory
+  if (idsToDelete.size > 0) {
+    await ServerHistory.deleteMany({
+      id: { $in: Array.from(idsToDelete) },
+      timestamp: { $lt: new Date(Date.now() - 24 * 60 * 60 * 1000) } // Example: Delete entries older than 24 hours
+    });
+  }
+
+  console.log('Servers updated');
 }
 
-cron.schedule("*/5 * * * *", async () => {
-  await getServers();
+cron.schedule('*/5 * * * *', async () => {
+  try {
+    await getServers();
+  } catch (error) {
+    console.error('Error updating servers:', error);
+  }
 });
+
