@@ -76,4 +76,7 @@ const serverSchema = new Schema<IServerView>({
   variables: { type: Map, of: String },
 });
 
+serverSchema.index({ playersCurrent: -1 }); // For sorting by playersCurrent
+serverSchema.index({ id: 1 }, { unique: true }); // For unique constraint on id
+
 export default mongoose.model<IServerView>("Server", serverSchema);
