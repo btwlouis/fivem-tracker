@@ -15,20 +15,21 @@ export async function insertOrUpdate(serverData: IServerView) {
 export async function getAll(amount: number = 300) {
   // order by clients desc
   return await Server.find(
-    {},
-    {
-      id: 1,
-      connectEndPoints: 1,
-      hostname: 1,
-      playersCurrent: 1,
-      playersMax: 1,
-      mapname: 1,
-      historicalIconURL: 1,
-      iconVersion: 1,
-      joinId: 1,
-      gametype: 1,
-    }
-  )
+    {})
+    .select(
+      {
+        id: 1,
+        connectEndPoints: 1,
+        hostname: 1,
+        playersCurrent: 1,
+        playersMax: 1,
+        mapname: 1,
+        historicalIconURL: 1,
+        iconVersion: 1,
+        joinId: 1,
+        gametype: 1,
+      }
+    )
     .sort({ playersCurrent: -1 })
     .limit(amount);
 }
