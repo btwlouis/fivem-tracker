@@ -89,6 +89,7 @@ const ServerList = ({ searchValue }) => {
                       dangerouslySetInnerHTML={{
                         __html: formatHostname(item.hostname || "") || "N/A",
                       }}
+                      id="hostname"
                     />
                     <CCardText>
                       <strong>Game Type:</strong> {item.gametype}

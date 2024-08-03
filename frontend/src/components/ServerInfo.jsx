@@ -57,6 +57,7 @@ const ServerInfo = ({ server }) => {
                     dangerouslySetInnerHTML={{
                       __html: formatHostname(data.hostname || "") || "N/A",
                     }}
+                    id="hostname"
                   />
                 </div>
 

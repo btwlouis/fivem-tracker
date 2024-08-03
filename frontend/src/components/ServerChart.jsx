@@ -18,15 +18,13 @@ const ServerChart = ({ server }) => {
         const url = `${process.env.REACT_APP_API_URL}server/${id}/history/${period}`;
         const data = await axios.get(url);
 
-        console.log(data);
-
         if (data.status === 200) {
           const response = data.data;
 
           setChartData(response);
           setLoading(false);
         } else {
-          setError("Error fetching history data.Data");
+          setError("Error fetching history data");
         }
       } catch (error) {
         setError(error);
@@ -52,21 +50,6 @@ const ServerChart = ({ server }) => {
 
     return transformedArray;
   }
-
-  // map data to chart. clients -> value and timestamp -> time
-
-  //   const initialData = [
-  //     { time: "2018-12-22", value: 32.51 },
-  //     { time: "2018-12-23", value: 31.11 },
-  //     { time: "2018-12-24", value: 27.02 },
-  //     { time: "2018-12-25", value: 27.32 },
-  //     { time: "2018-12-26", value: 25.17 },
-  //     { time: "2018-12-27", value: 28.89 },
-  //     { time: "2018-12-28", value: 25.46 },
-  //     { time: "2018-12-29", value: 23.92 },
-  //     { time: "2018-12-30", value: 22.68 },
-  //     { time: "2018-12-31", value: 22.67 },
-  //   ];
 
   return (
     <div>
