@@ -111,7 +111,7 @@ async function getServers() {
         upsert: true,
       },
     }));
-    await ServerHistory.default.bulkWrite(bulkOps);
+    await Server.default.bulkWrite(bulkOps);
   }
 
   // Delete old entries from ServerHistory
