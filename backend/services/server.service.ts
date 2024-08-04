@@ -58,3 +58,5 @@ export async function get(id: string) {
 //     maxPlayers,
 //   };
 // }
+
+export default Server

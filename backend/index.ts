@@ -107,18 +107,18 @@ async function getServers() {
     const bulkOps = serversToUpdate.map((server) => ({
       updateOne: {
         filter: { id: server.id },
-        update: server,
+        update:  { $set: server },
         upsert: true,
       },
     }));
-    await ServerHistory.default.bulkWrite(bulkOps);
+    await Server.default.bulkWrite(bulkOps);
   }
 
   // Delete old entries from ServerHistory
   if (idsToDelete.size > 0) {
     await ServerHistory.default.deleteMany({
       id: { $in: Array.from(idsToDelete) },
-      timestamp: { $lt: new Date(Date.now() - 24 * 60 * 60 * 1000) }, // Example: Delete entries older than 24 hours
+      timestamp: { $lt: new Date(Date.now() - 30* 24 * 60 * 60 * 1000) }, // Delete entries older than 1 month
     });
   }
 
