@@ -7,7 +7,7 @@ export async function insert(serverHistory: IServerHistory) {
 
 export async function deleteOld(id: string) {
   const currentTime = new Date().getTime();
-  const oneMonthAgo = currentTime - 2592000000;
+  const oneMonthAgo = currentTime - 1209600000;
 
   await ServerHistory.deleteMany({ id: id, timestamp: { $lte: oneMonthAgo } });
 }
