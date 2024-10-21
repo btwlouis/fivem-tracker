@@ -87,7 +87,7 @@ export async function fetchServers(
     }
 
     await readBodyToServers(gameName, onServer, body);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching servers:", error);
     if (error instanceof fetcher.HttpError) {
       console.error(`HTTP error: ${error.status} ${error.statusText}`);
@@ -98,4 +98,3 @@ export async function fetchServers(
     console.timeEnd("Total fetchServers");
   }
 }
-
