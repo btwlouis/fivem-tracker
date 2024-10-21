@@ -79,14 +79,23 @@ export async function fetchServers(
 ) {
   console.time("Total fetchServers");
 
-  const { body } = await fetcher.fetch(new Request(ALL_SERVERS_URL));
+  try {
+    const { body } = await fetcher.fetch(new Request(ALL_SERVERS_URL));
 
-  if (!body) {
-    console.timeEnd("Total getAllServers");
-    throw new Error("Empty body of all servers stream");
+    if (!body) {
+      throw new Error("Empty body of all servers stream");
+    }
+
+    await readBodyToServers(gameName, onServer, body);
+  } catch (error) {
+    console.error("Error fetching servers:", error);
+    if (error instanceof fetcher.HttpError) {
+      console.error(`HTTP error: ${error.status} ${error.statusText}`);
+    } else if (error.code === "ECONNRESET") {
+      console.error("Connection was reset. Please try again later.");
+    }
+  } finally {
+    console.timeEnd("Total fetchServers");
   }
-
-  await readBodyToServers(gameName, onServer, body);
-
-  console.timeEnd("Total getAllServers");
 }
+
