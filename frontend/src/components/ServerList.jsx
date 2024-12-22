@@ -25,6 +25,7 @@ const ServerList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("list", process.env.REACT_APP_API_URL);
         const response = await axios.get(
           process.env.REACT_APP_API_URL + "api/servers"
         );
