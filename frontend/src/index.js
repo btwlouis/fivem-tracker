@@ -1,11 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// Import Bootstrap CSS
-import "./index.css";
+import "@fontsource/poppins/100.css";
+import "@fontsource/poppins/200.css";
+import "@fontsource/poppins/300.css";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
+import "@fontsource/poppins/800.css";
+import "@fontsource/poppins/900.css";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "@coreui/coreui/dist/css/coreui.min.css";
+// Import  CSS
+import "./index.css";
 
 // Router
 import { RouterProvider } from "react-router-dom";

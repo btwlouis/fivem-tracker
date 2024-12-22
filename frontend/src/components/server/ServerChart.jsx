@@ -1,11 +1,10 @@
-import { CCard, CContainer } from "@coreui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Loading from "./utils/Loading";
-import { ChartComponent } from "./utils/Chart";
+import Loading from "../utils/Loading";
+import { ChartComponent } from "../utils/Chart";
 
-const ServerChart = ({ server }) => {
-  const id = server.id;
+const ServerChart = () => {
+  const id = window.location.pathname.split("/")[2];
 
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,7 +14,7 @@ const ServerChart = ({ server }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `${process.env.REACT_APP_API_URL}server/${id}/history/${period}`;
+        const url = `${process.env.REACT_APP_API_URL}api/server/${id}/history/${period}`;
         const data = await axios.get(url);
 
         if (data.status === 200) {
@@ -27,7 +26,7 @@ const ServerChart = ({ server }) => {
           setError("Error fetching history data");
         }
       } catch (error) {
-        setError(error);
+        setError(error.message || "An unknown error occurred");
         setLoading(false);
       }
     };
@@ -58,13 +57,7 @@ const ServerChart = ({ server }) => {
       ) : error ? (
         <div>{error}</div>
       ) : (
-        <div>
-          <CContainer>
-            <CCard>
-              <ChartComponent data={initialData()}></ChartComponent>
-            </CCard>
-          </CContainer>
-        </div>
+        <ChartComponent data={initialData()}></ChartComponent>
       )}
     </div>
   );

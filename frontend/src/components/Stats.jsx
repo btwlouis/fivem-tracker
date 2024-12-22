@@ -1,11 +1,6 @@
 import React from "react";
-import { CContainer, CRow, CCol } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import { cilStorage, cilUserPlus } from "@coreui/icons";
-import { CWidgetStatsC } from "@coreui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Loading from "./utils/Loading";
 
 const Stats = () => {
   const [data, setData] = useState([]);
@@ -43,34 +38,35 @@ const Stats = () => {
       ) : error ? (
         <div>{error}</div>
       ) : (
-        <CContainer className="px-4">
-          <CRow>
-            <CCol xs={12} md={6}>
-              <CWidgetStatsC
-                className="mb-3"
-                color="primary"
-                inverse
-                icon={<CIcon icon={cilStorage} height={36} />}
-                title="Online Servers"
-                value={data.servers}
-              />
-            </CCol>
-            <CCol xs={12} md={6}>
-              <CWidgetStatsC
-                className="mb-3"
-                icon={<CIcon icon={cilUserPlus} height={36} />}
-                color="primary"
-                inverse
-                // calculate percentage bar value. data.maxPlayers and data.players
-                progress={{
-                  value: percentage,
-                }}
-                title="Online Players"
-                value={percentage + "%"}
-              />
-            </CCol>
-          </CRow>
-        </CContainer>
+        <div>test</div>
+        // <CContainer className="px-4">
+        //   <CRow>
+        //     <CCol xs={12} md={6}>
+        //       <CWidgetStatsC
+        //         className="mb-3"
+        //         color="primary"
+        //         inverse
+        //         icon={<CIcon icon={cilStorage} height={36} />}
+        //         title="Online Servers"
+        //         value={data.servers}
+        //       />
+        //     </CCol>
+        //     <CCol xs={12} md={6}>
+        //       <CWidgetStatsC
+        //         className="mb-3"
+        //         icon={<CIcon icon={cilUserPlus} height={36} />}
+        //         color="primary"
+        //         inverse
+        //         // calculate percentage bar value. data.maxPlayers and data.players
+        //         progress={{
+        //           value: percentage,
+        //         }}
+        //         title="Online Players"
+        //         value={percentage + "%"}
+        //       />
+        //     </CCol>
+        //   </CRow>
+        // </CContainer>
       )}
     </div>
   );

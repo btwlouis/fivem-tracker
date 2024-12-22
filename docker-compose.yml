@@ -1,13 +1,16 @@
 version: '3'
 
 services:
-  mongodb:
-    image: mongo
-    container_name: database
-    ports:
-      - "27018:27017"
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: fivem_tracker
+      MYSQL_DATABASE: fivem_tracker
+      MYSQL_USER: fivem_tracker
+      MYSQL_PASSWORD: fivem_tracker
     volumes:
-      - mongodb_data:/data/db
+      - mariadb_data:/var/lib/mysql
     networks:
       - app_network
 
@@ -17,11 +20,14 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     environment:
-      - MONGODB_URI=mongodb://database:27017/fivem-tracker  # Updated MongoDB URI
+      - MYSQL_HOST=mariadb
+      - MYSQL_USER=fivem_tracker
+      - MYSQL_PASSWORD=fivem_tracker
+      - MYSQL_DATABASE=fivem_tracker
     ports:
       - "4000:4000"
     depends_on:
-      - mongodb
+      - mariadb
     networks:
       - app_network
 
@@ -30,6 +36,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
+    environment:
+      - REACT_APP_API_URL=https://tracker.louis.sytems/
     ports:
       - "3000:80"
     networks:
@@ -39,4 +47,4 @@ networks:
   app_network:
 
 volumes:
-  mongodb_data:
+  mariadb_data:

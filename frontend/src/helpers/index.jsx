@@ -43,6 +43,10 @@ export const formatHostname = (hostname) => {
   return formattedHostname;
 };
 
+export const removeColors = (text) => {
+  return text.replace(/\^\d/g, "");
+};
+
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleString();
@@ -55,3 +59,9 @@ export const calculatePercentage = (clients, maxClients) => {
 export const getColorForPercentage = (percentage) => {
   return percentage < 50 ? "success" : percentage < 90 ? "warning" : "danger";
 };
+
+export function getServerIconURL(joinId, iconVersion) {
+  if (joinId && typeof iconVersion === "number") {
+    return `https://servers-frontend.fivem.net/api/servers/icon/${joinId}/${iconVersion}.png`;
+  }
+}

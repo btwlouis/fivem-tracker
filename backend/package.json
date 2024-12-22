@@ -6,6 +6,7 @@
     "emoji-regex": "^10.3.0",
     "express": "^4.19.2",
     "mongoose": "^8.3.2",
+    "mysql2": "^3.11.5",
     "node-cron": "^3.0.3",
     "nodemon": "^3.1.0",
     "protobufjs": "^7.3.2",
@@ -14,9 +15,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon index.ts"
+    "dev": "nodemon server.ts"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21"
   }
 }

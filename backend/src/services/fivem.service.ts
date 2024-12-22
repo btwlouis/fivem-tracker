@@ -7,8 +7,6 @@ import { IServerView } from "../utils/types";
 
 const BASE_URL = "https://servers-frontend.fivem.net/api/servers";
 const ALL_SERVERS_URL = `${BASE_URL}/streamRedir/`;
-const SINGLE_SERVER_URL = `${BASE_URL}/single/`;
-const TOP_SERVER_URL = `${BASE_URL}/top/`;
 
 export enum GameName {
   FiveM = "gta5",
@@ -97,4 +95,73 @@ export async function fetchServers(
   } finally {
     console.timeEnd("Total fetchServers");
   }
+}
+
+import serverRepository from "../repositories/server.repository";
+import IServer from "../models/server.model";
+import IServerHistory from "../models/server.history.model";
+import serverHistoryRepository from "../repositories/server.history.repository";
+getServers();
+export async function getServers() {
+  await fetchServers(GameName.FiveM, async (server) => {
+    if (server.locale !== "de-DE") {
+      return;
+    }
+
+    if (server.id === "g8lqro") {
+      console.log(server);
+    }
+
+    // parse server to Server model
+    const serverModel: IServer = {
+      id: server.id,
+      locale: server.locale,
+      localeCountry: server.localeCountry,
+      hostname: server.hostname,
+      joinId: server.joinId ?? "",
+      projectName: server.projectName,
+      projectDescription: server.projectDescription ?? "",
+      upvotePower: server.upvotePower ?? 0,
+      burstPower: server.burstPower ?? 0,
+      mapname: server.mapname ?? "",
+      gametype: server.gametype ?? "",
+      gamename: server.gamename ?? "",
+      private: server.private ?? false,
+      scriptHookAllowed: server.scriptHookAllowed ?? false,
+      enforceGameBuild: server.enforceGameBuild ?? "",
+      bannerConnecting: server.bannerConnecting ?? "",
+      bannerDetail: server.bannerDetail ?? "",
+      server: server.server ?? "",
+      playersMax: server.playersMax ?? 0,
+      playersCurrent: server.playersCurrent ?? 0,
+      iconVersion: server.iconVersion ?? 0,
+      tags: server.tags ?? [],
+      players: server.players ?? [],
+      resources: server.resources ?? [],
+      constructor: {
+        name: "RowDataPacket",
+      },
+    };
+
+    const serverHistoryModel: IServerHistory = {
+      id: server.id,
+      clients: server.playersCurrent ?? 0,
+      timestamp: new Date().getTime(),
+      constructor: {
+        name: "RowDataPacket",
+      },
+    };
+
+    serverRepository.save(serverModel);
+    serverHistoryRepository.save(serverHistoryModel);
+  });
+
+  deleteOldServers();
+}
+
+// delete old servers where servers.updated_at < now - 30 day
+export async function deleteOldServers() {
+  const result: any = await serverRepository.deleteOldServers();
+
+  console.log(`Deleted ${result?.affectedRows} old servers`);
 }
