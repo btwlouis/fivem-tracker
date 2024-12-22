@@ -1,5 +1,5 @@
 {
-  "main": "index.ts",
+  "main": "server.ts",
   "dependencies": {
     "axios": "^1.6.8",
     "cors": "^2.8.5",
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon index.ts"
+    "dev": "nodemon server.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
