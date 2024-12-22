@@ -25,7 +25,7 @@ services:
       - MYSQL_PASSWORD=fivem_tracker
       - MYSQL_DATABASE=fivem_tracker
     ports:
-      - "4000:4000"
+      - "7777:4000"
     depends_on:
       - mariadb
     networks:
@@ -39,7 +39,7 @@ services:
     environment:
       - REACT_APP_API_URL=https://tracker.louis.sytems/
     ports:
-      - "3000:80"
+      - "6666:80"
     networks:
       - app_network
       
