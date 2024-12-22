@@ -20,12 +20,13 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     environment:
+      - FRONTEND_URL=https://tracker.louis.systems
       - MYSQL_HOST=mariadb
       - MYSQL_USER=fivem_tracker
       - MYSQL_PASSWORD=fivem_tracker
       - MYSQL_DATABASE=fivem_tracker
     ports:
-      - "7777:4000"
+      - "4000:4000"
     depends_on:
       - mariadb
     networks:
@@ -42,7 +43,7 @@ services:
       - "6666:80"
     networks:
       - app_network
-      
+
 networks:
   app_network:
 
