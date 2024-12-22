@@ -71,6 +71,8 @@ export default class Server {
       origin: process.env.FRONTEND_URL,
     };
 
+    console.log("frontend", process.env.FRONTEND_URL);
+
     app.use(cors(corsOptions));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
