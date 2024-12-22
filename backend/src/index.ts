@@ -73,10 +73,12 @@ export default class Server {
 
     console.log("frontend", process.env.FRONTEND_URL);
 
-    //app.use(cors(corsOptions));
-    //app.use(express.json());
-    //app.use(express.urlencoded({ extended: true }));
+    
+    app.use(cors(corsOptions));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
+    console.log("test");
     this.startCronJob();
   }
 
