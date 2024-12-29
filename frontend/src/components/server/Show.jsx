@@ -4,10 +4,12 @@ import { getServerIconURL, removeColors } from "../../helpers";
 import { FaArrowLeft } from "react-icons/fa";
 import ServerChart from "./ServerChart";
 import Loading from "../utils/Loading";
+import { useNavigate } from "react-router-dom";
 
 const Server = () => {
   // get id from    path: "/server/:id", browser router
   const id = window.location.pathname.split("/")[2];
+  const navigate = useNavigate();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +56,7 @@ const Server = () => {
           <div className="flex justify-center items-center min-h-screen">
             <div className="container mx-auto">
               <button
-                onClick={() => window.history.back()}
+                onClick={() => navigate("/")}
                 className="bg-slate-900  text-white p-4 rounded my-2 ">
                 <FaArrowLeft />
               </button>
