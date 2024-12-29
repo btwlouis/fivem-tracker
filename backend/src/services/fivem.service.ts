@@ -108,10 +108,6 @@ export async function getServers() {
       return;
     }
 
-    if (server.id === "g8lqro") {
-      //console.log(server);
-    }
-
     // parse server to Server model
     const serverModel: IServer = {
       id: server.id,

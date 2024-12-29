@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as $protobuf from 'protobufjs';
+import * as $protobuf from "protobufjs";
 /** Namespace master. */
 export namespace master {
   /** Properties of a Player. */
@@ -56,7 +56,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: master.IPlayer, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(
+      message: master.IPlayer,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Encodes the specified Player message, length delimited.
@@ -65,7 +68,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: master.IPlayer, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(
+      message: master.IPlayer,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Decodes a Player message from the specified reader or buffer.
@@ -75,7 +81,10 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): master.Player;
+    public static decode(
+      reader: $protobuf.Reader | Uint8Array,
+      length?: number
+    ): master.Player;
 
     /**
      * Decodes a Player message from the specified reader or buffer, length delimited.
@@ -84,7 +93,9 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): master.Player;
+    public static decodeDelimited(
+      reader: $protobuf.Reader | Uint8Array
+    ): master.Player;
 
     /**
      * Verifies a Player message.
@@ -106,7 +117,10 @@ export namespace master {
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: master.Player, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(
+      message: master.Player,
+      options?: $protobuf.IConversionOptions
+    ): { [k: string]: any };
 
     /**
      * Converts this Player to JSON.
@@ -229,7 +243,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: master.IServerData, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(
+      message: master.IServerData,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Encodes the specified ServerData message,
@@ -238,7 +255,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: master.IServerData, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(
+      message: master.IServerData,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Decodes a ServerData message from the specified reader or buffer.
@@ -248,7 +268,10 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): master.ServerData;
+    public static decode(
+      reader: $protobuf.Reader | Uint8Array,
+      length?: number
+    ): master.ServerData;
 
     /**
      * Decodes a ServerData message from the specified reader or buffer, length delimited.
@@ -257,7 +280,9 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): master.ServerData;
+    public static decodeDelimited(
+      reader: $protobuf.Reader | Uint8Array
+    ): master.ServerData;
 
     /**
      * Verifies a ServerData message.
@@ -279,7 +304,10 @@ export namespace master {
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: master.ServerData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(
+      message: master.ServerData,
+      options?: $protobuf.IConversionOptions
+    ): { [k: string]: any };
 
     /**
      * Converts this ServerData to JSON.
@@ -324,7 +352,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: master.IServer, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(
+      message: master.IServer,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Encodes the specified Server message,
@@ -333,7 +364,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: master.IServer, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(
+      message: master.IServer,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Decodes a Server message from the specified reader or buffer.
@@ -343,7 +377,10 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): master.Server;
+    public static decode(
+      reader: $protobuf.Reader | Uint8Array,
+      length?: number
+    ): master.Server;
 
     /**
      * Decodes a Server message from the specified reader or buffer, length delimited.
@@ -352,7 +389,9 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): master.Server;
+    public static decodeDelimited(
+      reader: $protobuf.Reader | Uint8Array
+    ): master.Server;
 
     /**
      * Verifies a Server message.
@@ -374,7 +413,10 @@ export namespace master {
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: master.Server, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(
+      message: master.Server,
+      options?: $protobuf.IConversionOptions
+    ): { [k: string]: any };
 
     /**
      * Converts this Server to JSON.
@@ -413,7 +455,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: master.IServers, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(
+      message: master.IServers,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Encodes the specified Servers message,
@@ -422,7 +467,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: master.IServers, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(
+      message: master.IServers,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Decodes a Servers message from the specified reader or buffer.
@@ -432,7 +480,10 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): master.Servers;
+    public static decode(
+      reader: $protobuf.Reader | Uint8Array,
+      length?: number
+    ): master.Servers;
 
     /**
      * Decodes a Servers message from the specified reader or buffer, length delimited.
@@ -441,7 +492,9 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): master.Servers;
+    public static decodeDelimited(
+      reader: $protobuf.Reader | Uint8Array
+    ): master.Servers;
 
     /**
      * Verifies a Servers message.
@@ -463,7 +516,10 @@ export namespace master {
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: master.Servers, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(
+      message: master.Servers,
+      options?: $protobuf.IConversionOptions
+    ): { [k: string]: any };
 
     /**
      * Converts this Servers to JSON.
@@ -514,7 +570,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: master.IServerIcon, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(
+      message: master.IServerIcon,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Encodes the specified ServerIcon message,
@@ -523,7 +582,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: master.IServerIcon, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(
+      message: master.IServerIcon,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Decodes a ServerIcon message from the specified reader or buffer.
@@ -533,7 +595,10 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): master.ServerIcon;
+    public static decode(
+      reader: $protobuf.Reader | Uint8Array,
+      length?: number
+    ): master.ServerIcon;
 
     /**
      * Decodes a ServerIcon message from the specified reader or buffer, length delimited.
@@ -542,7 +607,9 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): master.ServerIcon;
+    public static decodeDelimited(
+      reader: $protobuf.Reader | Uint8Array
+    ): master.ServerIcon;
 
     /**
      * Verifies a ServerIcon message.
@@ -564,7 +631,10 @@ export namespace master {
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: master.ServerIcon, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(
+      message: master.ServerIcon,
+      options?: $protobuf.IConversionOptions
+    ): { [k: string]: any };
 
     /**
      * Converts this ServerIcon to JSON.
@@ -603,7 +673,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: master.IServerIcons, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(
+      message: master.IServerIcons,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Encodes the specified ServerIcons message,
@@ -612,7 +685,10 @@ export namespace master {
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: master.IServerIcons, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(
+      message: master.IServerIcons,
+      writer?: $protobuf.Writer
+    ): $protobuf.Writer;
 
     /**
      * Decodes a ServerIcons message from the specified reader or buffer.
@@ -622,7 +698,10 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): master.ServerIcons;
+    public static decode(
+      reader: $protobuf.Reader | Uint8Array,
+      length?: number
+    ): master.ServerIcons;
 
     /**
      * Decodes a ServerIcons message from the specified reader or buffer, length delimited.
@@ -631,7 +710,9 @@ export namespace master {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): master.ServerIcons;
+    public static decodeDelimited(
+      reader: $protobuf.Reader | Uint8Array
+    ): master.ServerIcons;
 
     /**
      * Verifies a ServerIcons message.
@@ -653,7 +734,10 @@ export namespace master {
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: master.ServerIcons, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(
+      message: master.ServerIcons,
+      options?: $protobuf.IConversionOptions
+    ): { [k: string]: any };
 
     /**
      * Converts this ServerIcons to JSON.

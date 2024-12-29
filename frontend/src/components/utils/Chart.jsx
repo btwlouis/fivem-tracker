@@ -25,23 +25,45 @@ export const ChartComponent = (props) => {
         background: { type: ColorType.Solid, color: backgroundColor },
         textColor,
       },
-      width: chartContainerRef.current.clientWidth,
+      width: 1500,
       height: 300,
     });
-    chart.applyOptions({
-      localization: {
-        timeFormatter: (timestamp) => {
-          return new Date(timestamp * 1000).toLocaleString("de-DE");
-        },
-      },
-    });
+    // chart.applyOptions({
+    //   localization: {
+    //     timeFormatter: (timestamp) => {
+    //       return new Date(timestamp * 1000).toLocaleString("de-DE");
+    //     },
+    //   },
+    // });
     chart.timeScale().fitContent();
     const newSeries = chart.addAreaSeries({
       lineColor,
       topColor: areaTopColor,
       bottomColor: areaBottomColor,
     });
-    newSeries.setData(data);
+    //newSeries.setData(data);
+    newSeries.setData([
+      {
+        time: Date.parse("2019-04-11 09:43") / 1000,
+        value: 100,
+      },
+      {
+        time: Date.parse("2019-04-11 09:44") / 1000,
+        value: 100,
+      },
+      {
+        time: Date.parse("2019-04-11 09:45") / 1000,
+        value: 100,
+      },
+      {
+        time: Date.parse("2019-04-11 09:46") / 1000,
+        value: 100,
+      },
+      {
+        time: Date.parse("2019-04-11 09:47") / 1000,
+        value: 100,
+      },
+    ]);
 
     window.addEventListener("resize", handleResize);
 
