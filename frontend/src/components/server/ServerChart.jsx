@@ -98,6 +98,8 @@ const ServerChart = () => {
             borderColor: "rgba(255, 255, 255, 0.2)",
             rightOffset: 2,
             fixLeftEdge: true,
+            timeVisible: true, 
+            secondsVisible: false,
           },
         }
       );
