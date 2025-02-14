@@ -71,8 +71,8 @@ const ServerChart = () => {
             textColor: "#fff",
           },
           grid: {
-            vertLines: { color: "rgba(255, 255, 255, 0.1)" },
-            horzLines: { color: "rgba(255, 255, 255, 0.1)" },
+            vertLines: { visible: false },
+            horzLines: { visible: false },
           },
           crosshair: {
             mode: CrosshairMode.Normal,
