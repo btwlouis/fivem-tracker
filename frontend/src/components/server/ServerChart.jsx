@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Chart as ChartJS, registerables } from "chart.js";
-import { Line } from "react-chartjs-2";
-import zoomPlugin from "chartjs-plugin-zoom";
-import "chartjs-adapter-date-fns"; // Import date adapter
-import { format } from "date-fns";
+import {
+  createChart,
+  LineStyle,
+  CrosshairMode,
+} from "lightweight-charts";
 import Loading from "../utils/Loading";
 
-ChartJS.register(...registerables, zoomPlugin);
-
 const ServerChart = () => {
+  const chartContainerRef = useRef(null);
+  const chartInstanceRef = useRef(null);
+  const lineSeriesRef = useRef(null);
+
   const id = window.location.pathname.split("/")[2];
 
   const [chartData, setChartData] = useState(null);
@@ -26,10 +28,16 @@ const ServerChart = () => {
         const response = await axios.get(url);
 
         if (response.status === 200) {
-          const sortedData = response.data.sort(
-            (a, b) =>
-              new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-          );
+          const sortedData = response.data
+            .sort(
+              (a, b) =>
+                new Date(a.timestamp).getTime() -
+                new Date(b.timestamp).getTime()
+            )
+            .map((item) => ({
+              time: new Date(item.timestamp).getTime() / 1000,
+              value: item.clients,
+            }));
           setChartData(sortedData);
         } else {
           setError("Error fetching history data");
@@ -44,105 +52,100 @@ const ServerChart = () => {
     fetchData();
   }, [id, period]);
 
-  const getTransformedData = () => {
-    let previousDate = null;
-    const labels = chartData.map((obj) => {
-      const date = new Date(obj.timestamp);
+  useEffect(() => {
+    if (chartData && chartContainerRef.current) {
+      // Clear previous chart instance if it exists
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.remove();
+        chartInstanceRef.current = null;
+      }
 
-      const currentDate = format(date, "dd.MM.yy");
-
-      const label =
-        currentDate !== previousDate ? `${currentDate}` : format(date, "HH:mm");
-
-      previousDate = currentDate;
-
-      return label;
-    });
-
-    const data = chartData.map((obj) => obj.clients);
-
-    return {
-      labels,
-      datasets: [
+      // Create a new chart instance
+      chartInstanceRef.current = createChart(
+        chartContainerRef.current,
         {
-          label: "Players",
-          data,
-          borderColor: "rgba(29, 78, 216, 1)",
-          backgroundColor: "rgba(29, 78, 216, 0.2)",
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          hitRadius: 15,
-          tension: 0.2,
-        },
-      ],
-    };
-  };
+          width: chartContainerRef.current.clientWidth,
+          height: 400,
+          layout: {
+            background: { type: "solid", color: "transparent" },
+            textColor: "#fff",
+          },
+          grid: {
+            vertLines: { color: "rgba(255, 255, 255, 0.1)" },
+            horzLines: { color: "rgba(255, 255, 255, 0.1)" },
+          },
+          crosshair: {
+            mode: CrosshairMode.Normal,
+            vertLine: {
+              color: "rgba(255, 255, 255, 0.2)",
+              width: 1,
+              style: LineStyle.Dotted,
+              visible: true,
+              labelVisible: true,
+            },
+            horzLine: {
+              color: "rgba(255, 255, 255, 0.2)",
+              width: 1,
+              style: LineStyle.Dotted,
+              visible: true,
+              labelVisible: true,
+            },
+          },
+          rightPriceScale: {
+            borderColor: "rgba(255, 255, 255, 0.2)",
+          },
+          timeScale: {
+            borderColor: "rgba(255, 255, 255, 0.2)",
+            rightOffset: 2,
+            fixLeftEdge: true,
+          },
+        }
+      );
 
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      zoom: {
-        pan: {
-          enabled: true,
-          mode: "x",
-        },
-        zoom: {
-          wheel: {
-            enabled: true,
-          },
-          pinch: {
-            enabled: true,
-          },
-          mode: "x",
-        },
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        type: "category", // Time scale for the x-axis
-        time: {
-          unit: "hour", // Adjust based on your data
-        },
-        title: {
-          display: true,
-          text: "Timestamp",
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: "Clients",
-        },
-      },
-    },
-  };
+      lineSeriesRef.current = chartInstanceRef.current.addAreaSeries({
+        lineColor: "rgba(29, 78, 216, 1)",
+        topColor: "rgba(29, 78, 216, 0.5)",
+        bottomColor: "transparent",
+        lineWidth: 2,
+      });
+
+      lineSeriesRef.current.setData(chartData);
+
+      const firstTime = chartData[0].time;
+      const lastTime = chartData[chartData.length - 1].time;
+      chartInstanceRef.current.timeScale().setVisibleRange({
+        from: firstTime,
+        to: lastTime,
+      });
+
+      const handleResize = () => {
+        chartInstanceRef.current.applyOptions({
+          width: chartContainerRef.current.clientWidth,
+        });
+      };
+
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, [chartData]);
 
   const handlePeriodChange = (newPeriod) => {
     setPeriod(newPeriod);
   };
 
   return (
-    <div className="p-4 w-full ">
+    <div className="p-4 w-full">
       <div className="flex justify-start gap-4 mb-4">
         {["24h", "7d", "14d", "30d"].map((p) => (
           <button
             key={p}
             className={`px-4 py-2 rounded text-white ${
-              period === p ? "bg-blue-700 " : "bg-slate-500"
+              period === p ? "bg-blue-700" : "bg-slate-500"
             }`}
-            onClick={() => handlePeriodChange(p)}>
+            onClick={() => handlePeriodChange(p)}
+          >
             {p}
           </button>
         ))}
@@ -153,12 +156,13 @@ const ServerChart = () => {
         <div className="text-red-500">{error}</div>
       ) : (
         <div
-          className="w-full"
+          ref={chartContainerRef}
+          className="w-full bg-slate-900"
           style={{
-            height: "40vh",
-          }}>
-          <Line data={getTransformedData()} options={chartOptions} />
-        </div>
+            height: "45vh",
+            borderRadius: "8px",
+          }}
+        />
       )}
     </div>
   );

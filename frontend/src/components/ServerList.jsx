@@ -174,54 +174,55 @@ const ServerList = () => {
           </form>
         </div>
 
+        <div className="h-132 overflow-y-auto overflow-x-hidden ">
+
         {loading ? (
           <Loading />
         ) : error ? (
           <div className="text-red-500">{error}</div>
         ) : (
           <>
-            <div className="h-132 overflow-y-auto overflow-x-hidden ">
-              {visibleData.map((item, index) => (
-                <div className="mb-2" key={index}>
-                  <div
-                    className="flex w-full bg-slate-900 shadow rounded cursor-pointer hover:shadow-lg"
-                    onClick={() => handleCardClick(item.id)}>
-                    <img
-                      className="m-3 rounded h-8 w-8"
-                      src={getServerIconURL(item.joinId, item.iconVersion)}
-                      loading="lazy"
-                      alt="Server Icon"
-                    />
-                    <div className="p-4 w-full flex items-center relative">
-                      {/* Text Section */}
-                      <div className="flex flex-col flex-grow truncate">
-                        <p className="text-lg font-semibold truncate overflow-hidden whitespace-nowrap max-w-[70%]">
-                          {item.projectName}
-                        </p>
-                        <p className="text-sm opacity-70 truncate overflow-hidden whitespace-nowrap max-w-[70%]">
-                          {item.hostname}
-                        </p>
-                      </div>
+            {visibleData.map((item, index) => (
+              <div className="mb-2" key={index}>
+                <div
+                  className="flex w-full bg-slate-900 shadow rounded cursor-pointer hover:shadow-lg"
+                  onClick={() => handleCardClick(item.id)}>
+                  <img
+                    className="m-3 rounded h-8 w-8"
+                    src={getServerIconURL(item.joinId, item.iconVersion)}
+                    loading="lazy"
+                    alt="Server Icon"
+                  />
+                  <div className="p-4 w-full flex items-center relative">
+                    {/* Text Section */}
+                    <div className="flex flex-col flex-grow truncate">
+                      <p className="text-lg font-semibold truncate overflow-hidden whitespace-nowrap max-w-[70%]">
+                        {item.projectName}
+                      </p>
+                      <p className="text-sm opacity-70 truncate overflow-hidden whitespace-nowrap max-w-[70%]">
+                        {item.hostname}
+                      </p>
+                    </div>
 
-                      {/* Right Section */}
-                      <div className="absolute right-3 hidden lg:flex items-center space-x-3">
-                        <p className="bg-slate-950 rounded p-2  flex items-center">
-                          <FaStar className="mr-2" />
-                          {item.rank}
-                        </p>
-                        <p className="bg-slate-950 rounded p-2  flex items-center">
-                          <FaUserGroup className="mr-2" />
-                          {item.playersCurrent}
-                        </p>
-                      </div>
+                    {/* Right Section */}
+                    <div className="absolute right-3 hidden lg:flex items-center space-x-3">
+                      <p className="bg-slate-950 rounded p-2  flex items-center">
+                        <FaStar className="mr-2" />
+                        {item.rank}
+                      </p>
+                      <p className="bg-slate-950 rounded p-2  flex items-center">
+                        <FaUserGroup className="mr-2" />
+                        {item.playersCurrent}
+                      </p>
                     </div>
                   </div>
                 </div>
-              ))}
-              <div id="load-more" className="h-10 w-full"></div>
-            </div>
+              </div>
+            ))}
+            <div id="load-more" className="h-10 w-full"></div>
           </>
         )}
+        </div>
       </div>
     </div>
   );
